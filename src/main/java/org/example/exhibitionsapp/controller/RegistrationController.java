@@ -3,7 +3,6 @@ package org.example.exhibitionsapp.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exhibitionsapp.entity.Role;
 import org.example.exhibitionsapp.entity.User;
-import org.example.exhibitionsapp.repository.UserRepository;
 import org.example.exhibitionsapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Collections;
 import java.util.Map;

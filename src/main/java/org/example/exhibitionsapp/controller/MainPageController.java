@@ -27,11 +27,13 @@ public class MainPageController {
     public String filterByName(@RequestParam String filterByName, Map<String, Object> model, @PageableDefault(sort = {"ticketPrice"}, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Exhibition> exhibitions = exhibitionService.sortByName(filterByName, pageable);
         model.put("exhibitions", exhibitions);
-        model.put("url", "/filter_ex_by_name_guest?filterByName="+filterByName );
+        model.put("url", "/filter_ex_by_name_guest?filterByName="+filterByName);
         if (exhibitions.isEmpty()) {
-            model.put("searchResult", "No exhibitions found.");
+            ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                    "No exhibitions found.",
+                    "Жодної виставки не знайдено.");
         }
-        return "main";
+        return ControllerUtil.urlAppendLocale("main");
     }
 
     @GetMapping("/filter_ex_by_theme_guest")
@@ -40,16 +42,18 @@ public class MainPageController {
         model.put("exhibitions", exhibitions);
         model.put("url", "/filter_ex_by_theme_guest?filterByTheme="+filterByTheme );
         if (exhibitions.isEmpty()) {
-            model.put("searchResult", "No exhibitions found.");
+            ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                    "No exhibitions found.",
+                    "Жодної виставки не знайдено.");
         }
-        return "main";
+        return ControllerUtil.urlAppendLocale("main");
     }
 
     @GetMapping("/filter_ex_by_price_guest")
     public String filterByPrice(@RequestParam Long filterByPriceFrom, @RequestParam Long filterByPriceUpTo, Map<String, Object> model, @PageableDefault(sort = {"ticketPrice"}, direction = Sort.Direction.ASC) Pageable pageable) {
         if (filterByPriceFrom < 0 || filterByPriceUpTo < 0) {
             model.put("searchResult", "Price must be positive or 0.");
-            return "main";
+            return ControllerUtil.urlAppendLocale("main");
         }
         if (filterByPriceFrom > filterByPriceUpTo) {
             Long temp = filterByPriceFrom;
@@ -60,9 +64,11 @@ public class MainPageController {
         model.put("url", "/filter_ex_by_price_guest?filterByPriceFrom="+filterByPriceFrom+"filterByPriceUpTo="+filterByPriceUpTo );
         model.put("exhibitions", exhibitions);
         if (exhibitions.isEmpty()) {
-            model.put("searchResult", "No exhibitions found.");
+            ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                    "No exhibitions found.",
+                    "Жодної виставки не знайдено.");
         }
-        return "main";
+        return ControllerUtil.urlAppendLocale("main");
 
     }
 
@@ -71,9 +77,11 @@ public class MainPageController {
         List<HallSchedule> hallScheduleList = hallService.sortByDate(filterByDateStart, filterByDateEnd, pageable);
         model.put("halls_with_exhibitions", hallScheduleList);
         if (hallScheduleList.isEmpty()) {
-            model.put("searchResult", "No exhibitions found.");
+            ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                    "No exhibitions found.",
+                    "Жодної виставки не знайдено.");
         }
-        return "main";
+        return ControllerUtil.urlAppendLocale("main");
     }
 
     @GetMapping("/filter_ex_by_status_guest")
@@ -85,24 +93,30 @@ public class MainPageController {
                 model.put("url", "/filter_ex_by_status_guest?filterByStatus="+filterByStatus);
                 model.put("exhibitions", exhibitions);
                 if (exhibitions.isEmpty()) {
-                    model.put("searchResult", "No exhibitions found.");
+                    ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                            "No exhibitions found.",
+                            "Жодної виставки не знайдено.");
                 }
-                return "main";
+                return ControllerUtil.urlAppendLocale("main");
             case ("ACTIVE"):
                 hallScheduleList = hallService.findActiveEvents();
                 model.put("halls_with_exhibitions", hallScheduleList);
                 if (hallScheduleList.isEmpty()) {
-                    model.put("searchResult", "No exhibitions found.");
+                    ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                            "No exhibitions found.",
+                            "Жодної виставки не знайдено.");
                 }
-                return "main";
+                return ControllerUtil.urlAppendLocale("main");
             case ("ENDED"):
                 hallScheduleList = hallService.findEndedEvents();
                 model.put("halls_with_exhibitions", hallScheduleList);
                 if (hallScheduleList.isEmpty()) {
-                    model.put("searchResult", "No exhibitions found.");
+                    ControllerUtil.addValueToModelDependsOnLocale(model, "searchResult",
+                            "No exhibitions found.",
+                            "Жодної виставки не знайдено.");
                 }
-                return "main";
+                return ControllerUtil.urlAppendLocale("main");
         }
-        return "main";
+        return ControllerUtil.urlAppendLocale("main");
     }
 }

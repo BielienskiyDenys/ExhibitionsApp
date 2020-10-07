@@ -3,12 +3,8 @@ package org.example.exhibitionsapp.entity;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @ToString
 

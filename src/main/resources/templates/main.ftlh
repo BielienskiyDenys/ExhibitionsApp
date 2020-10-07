@@ -9,16 +9,12 @@
             <a class="nav-link" href="#"><@spring.message "header.home"/></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/login?lang=en_US">Login</a>
+            <a class="nav-link"
+               href="/login?lang=${springMacroRequestContext.locale}"><@spring.message "header.login"/></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/login?lang=uk_UA">Увійти до системи</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/registration?lang=en_US">Registration</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/registration?lang=uk_UA">Регістрація</a>
+            <a class="nav-link"
+               href="/registration?lang=${springMacroRequestContext.locale}"><@spring.message "header.register"/></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/main?lang=uk_UA"><@spring.message "header.switchUk"/></a>
@@ -27,167 +23,221 @@
             <a class="nav-link" href="/main?lang=en_US"><@spring.message "header.swithEng"/></a>
         </li>
     </@n.navbar>
-    <div class="container mt-5">
-        <h1><@spring.message "pagename.guest_page"/></h1>
-        <br>
-        <div>
-            <#if errormessage??>
-                <h4>${errormessage}</h4>
-            </#if>
+
+
+
+    <div class="container md-5">
+        <div class="mt-3 mb-3">
+            <h2><@spring.message "pagename.guest_page"/></h2>
         </div>
-        <br>
-        <div>
-            <h5><@spring.message "form.find_exhibition"/></h5>
-            <div class="form-group row">
-        <span>
-             <form id="searchByName" method="get" action="filter_ex_by_name_guest" class="form-inline">
-            <label for="searchByName" class="col-sm-2 col-form-label"><@spring.message "form.name"/>:</label>
-            <input type="text" name="filterByName" class="form-control">
-            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-        </form>
-                 </span>
-                <span>
-        <form id="searchByTheme" method="get" action="filter_ex_by_theme_guest" class="form-inline">
-            <label for="searchByTheme" class="col-sm-2 col-form-label"><@spring.message "form.theme"/>:</label>
-            <input type="text" name="filterByTheme" class="form-control">
-            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-        </form>
-        </span>
+
+        <div class="row mt-3 mb-3">
+            <div class="col">
+                <#if errormessage??>
+                    <h4>${errormessage}</h4>
+                </#if>
             </div>
-                <div class="form-group row">
-                    <form id="searchByPrice" method="get" action="filter_ex_by_price_guest" class="form-inline">
-                        <div class="col-sm-16">
-                            <label for="searchByPrice"
-                                   class="col-sm-2 col-form-label"><@spring.message "form.ticket_price"/>:</label>
-                            <input type="text" name="filterByPriceFrom" class="form-control" required="required">
-                            <input type="text" name="filterByPriceUpTo" class="form-control" required="required">
-                            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="form-group row">
-                    <form id="searchByDate" method="get" action="filter_ex_by_date_guest" class="form-inline">
-                        <div class="col-sm-16">
-                            <label for="searchByDate" class="col-sm-2 col-form-label"><@spring.message "form.date"/>
-                                :</label>
-                            <input type="date" name="filterByDateStart" class="form-control" required="required">
-                            <input type="date" name="filterByDateEnd" class="form-control" required="required">
-                            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="form-group row">
-                    <form id="searchByStatus" method="get" action="filter_ex_by_status_guest" class="form-inline">
-                        <label for="searchByStatus" class="col-sm-2 col-form-label"><@spring.message "form.status"/>
-                            </label>
-                        <div class="col-sm-1"></div>
-                        <select size="1" name="filterByStatus" class="form-control">
-                            <option value="ACTIVE"><@spring.message "value.active"/></option>
-                            <option value="CANCELED"><@spring.message "value.canceled"/></option>
-                            <option value="ENDED"><@spring.message "value.ended"/></option>
-                        </select>
-                        <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-                    </form>
-                </div>
-            </div>
-            <#if searchResult??>
-                <h4>${searchResult}</h4>
-            </#if>
-
-            <#if exhibitions??>
-                <@p.pager url exhibitions />
-                <#list exhibitions.content as exhibition>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th scope="row">${exhibition.id}</th>
-                            <td>
-                                <p>
-                                    <b>${exhibition.exNameEng}</b>
-                                    <b>${exhibition.exNameNative}</b>
-                                </p>
-                                <p>
-                                    <#list exhibition.hallScheduleList as hallSchedule>
-                                        <span><@spring.message "form.hall"/>:&nbsp${hallSchedule.hallName}</span>&nbsp&nbsp&nbsp
-                                        <span><@spring.message "form.start_date"/>: &nbsp${hallSchedule.startDateAsString}</span>&nbsp&nbsp&nbsp
-                                        <span><@spring.message "form.end_date"/>:&nbsp${hallSchedule.endDateAsString}</span>
-                                    </#list>
-                                </p>
-                                <p>
-                                    <@spring.message "form.opening_hours"/>:
-
-                                    <span>${exhibition.openTime}</span>
-                                    -
-                                    <span>${exhibition.closeTime}</span>
-                                </p>
-                                <p>
-                                    <span>${exhibition.descriptionEng}</span>
-                                </p>
-                                <p>
-                                    <span>${exhibition.descriptionNative}</span>
-                                </p>
-                                <p>
-                                    <span>${exhibition.themesEng}</span>
-                                    <span>${exhibition.themesNative}</span>
-                                </p>
-                                <p>
-                                    <@spring.message "form.ticket_price"/>:
-                                    <span>${exhibition.ticketPrice}</span>
-                                </p>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </#list>
-                <@p.pager url exhibitions />
-            <#else>
-            </#if>
-
-            <#if halls_with_exhibitions??>
-                <#list halls_with_exhibitions as hall_with_exhibition>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th scope="row">${hall_with_exhibition.exhibition.getId()}</th>
-                            <td>
-                                <p>
-                                    <b>${hall_with_exhibition.exhibition.getExNameEng()}</b>
-                                    <b>${hall_with_exhibition.exhibition.getExNameNative()}</b>
-                                </p>
-                                <p>
-                                    <span><@spring.message "form.hall"/>:&nbsp${hall_with_exhibition.hallName}</span>&nbsp&nbsp&nbsp
-                                    <span><@spring.message "form.start_date"/>: &nbsp${hall_with_exhibition.startDateAsString}</span>&nbsp&nbsp&nbsp
-                                    <span><@spring.message "form.end_date"/>:&nbsp${hall_with_exhibition.endDateAsString}</span>
-                                </p>
-                                <p>
-                                    <@spring.message "form.opening_hours"/>:
-                                    <span>${hall_with_exhibition.exhibition.getOpenTime()}</span>
-                                    -
-                                    <span>${hall_with_exhibition.exhibition.getCloseTime()}</span>
-                                </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getDescriptionEng()}</span>
-                                </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getDescriptionNative()}</span>
-                                </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getThemesEng()}</span>
-                                    <span>${hall_with_exhibition.exhibition.getThemesNative()}</span>
-                                </p>
-                                <p>
-                                    <@spring.message "form.ticket_price"/>:
-                                    <span>${hall_with_exhibition.exhibition.getTicketPrice()}</span>
-                                </p>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </#list>
-            <#else>
-            </#if>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <h5><@spring.message "form.find_exhibition"/></h5>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <form class="col" id="searchByName" method="get" action="filter_ex_by_name_guest"
+                  class="form-inline">
+                <div class="input-group mb-3">
+                    <input type="text" name="filterByName" class="form-control"
+                           placeholder="<@spring.message "form.name"/>:">
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="col" id="searchByTheme" method="get" action="filter_ex_by_theme_guest"
+                  class="form-inline">
+                <div class="input-group mb-3">
+                    <input type="text" name="filterByTheme" class="form-control"
+                           placeholder="<@spring.message "form.theme"/>:">
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="col" id="searchByStatus" method="get" action="filter_ex_by_status_guest">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><@spring.message "form.status"/>
+                        </span>
+                    </div>
+                    <select class="custom-select" size="1" name="filterByStatus" class="form-control">
+                        <option value="ACTIVE"><@spring.message "value.active"/></option>
+                        <option value="CANCELED"><@spring.message "value.canceled"/></option>
+                        <option value="ENDED"><@spring.message "value.ended"/></option>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="row">
+
+            <form class="col" id="searchByPrice" method="get" action="filter_ex_by_price_guest">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                                   <span class="input-group-text"><@spring.message "form.ticket_price"/>
+                                       :</span>
+                    </div>
+                    <input type="text" name="filterByPriceFrom" class="form-control"
+                           required="required">
+                    <input type="text" name="filterByPriceUpTo" class="form-control"
+                           required="required">
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="col" id="searchByDate" method="get" action="filter_ex_by_date_guest">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><@spring.message "form.date"/>:</span>
+                    </div>
+                    <input type="date" name="filterByDateStart" class="form-control" required="required">
+
+                    <input type="date" name="filterByDateEnd" class="form-control" required="required">
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="row mt-4 mb-4">
+            <div class="col">
+                <#if searchResult??>
+                    <h4>${searchResult}</h4>
+                </#if>
+            </div>
+        </div>
+
+
+        <#if exhibitions??>
+            <@p.pager url exhibitions />
+            <#list exhibitions.content as exhibition>
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            # ${exhibition.id} &nbsp;&nbsp;&nbsp;
+                            <#if .locale == "en_US">
+                                ${exhibition.exNameEng}&nbsp;&nbsp;&nbsp;
+                            <#else>
+                                ${exhibition.exNameNative}&nbsp;&nbsp;&nbsp;
+                            </#if>
+                        </h5>
+
+                        <#list exhibition.hallScheduleList as hallSchedule>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <span><@spring.message "form.hall"/>:&nbsp${hallSchedule.hallName}</span>&nbsp&nbsp&nbsp
+                                <span><@spring.message "form.start_date"/>: &nbsp${hallSchedule.startDateAsString}</span>&nbsp&nbsp&nbsp
+                                <span><@spring.message "form.end_date"/>:&nbsp${hallSchedule.endDateAsString}</span>
+                            </h6>
+                        </#list>
+
+
+                        <p class="card-text">
+                            <@spring.message "form.opening_hours"/>:
+                            <span>${exhibition.openTime}</span>
+                            -
+                            <span>${exhibition.closeTime}</span>
+                        </p>
+
+                        <#if .locale == "en_US">
+                            <p class="card-text">
+                                ${exhibition.descriptionEng}
+                            </p>
+                            <p class="card-text">
+                                ${exhibition.themesEng}
+                            </p>
+                        <#else>
+                            <p class="card-text">
+                                ${exhibition.descriptionNative}
+                            </p>
+                            <p class="card-text">
+                                ${exhibition.themesNative}
+                            </p>
+                        </#if>
+                        <p class="card-text">
+                            <@spring.message "form.ticket_price"/>:
+                            <span>${exhibition.ticketPrice}</span>
+                        </p>
+                    </div>
+                </div>
+            </#list>
+            <@p.pager url exhibitions />
+        <#else>
+        </#if>
+
+        <#if halls_with_exhibitions??>
+            <#list halls_with_exhibitions as hall_with_exhibition>
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            # ${hall_with_exhibition.exhibition.getId()}
+                            <#if .locale == "en_US">
+                                ${hall_with_exhibition.exhibition.getExNameEng()}
+                            <#else>
+                                ${hall_with_exhibition.exhibition.getExNameNative()}
+                            </#if>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <span><@spring.message "form.hall"/>:&nbsp${hall_with_exhibition.hallName}</span>&nbsp&nbsp&nbsp
+                            <span><@spring.message "form.start_date"/>: &nbsp${hall_with_exhibition.startDateAsString}</span>&nbsp&nbsp&nbsp
+                            <span><@spring.message "form.end_date"/>:&nbsp${hall_with_exhibition.endDateAsString}</span>
+                        </h6>
+                        <p class="card-text">
+                            <@spring.message "form.opening_hours"/>:
+                            <span>${hall_with_exhibition.exhibition.getOpenTime()}</span>
+                            -
+                            <span>${hall_with_exhibition.exhibition.getCloseTime()}</span>
+                        </p>
+                        <#if .locale == "en_US">
+                            <p class="card-text">
+                                ${hall_with_exhibition.exhibition.getDescriptionEng()}
+                            </p>
+                            <p class="card-text">
+                                ${hall_with_exhibition.exhibition.getThemesEng()}
+                            </p>
+                        <#else>
+                            <p class="card-text">
+                                ${hall_with_exhibition.exhibition.getDescriptionNative()}
+                            </p>
+                            <p class="card-text">
+                                ${hall_with_exhibition.exhibition.getThemesNative()}
+                            </p>
+                        </#if>
+                        <p class="card-text">
+                            <@spring.message "form.ticket_price"/>:
+                            <span>${hall_with_exhibition.exhibition.getTicketPrice()}</span>
+                        </p>
+                    </div>
+                </div>
+            </#list>
+        <#else>
+        </#if>
     </div>
 </@c.page>

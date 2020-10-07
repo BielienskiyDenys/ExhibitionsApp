@@ -6,260 +6,329 @@
 <@c.page>
     <@n.navbar>
         <li class="nav-item">
-            <a class="nav-link" href="/main?lang=${springMacroRequestContext.locale}">Home</a>
+            <a class="nav-link"
+               href="/main?lang=${springMacroRequestContext.locale}"><@spring.message "header.home"/></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/user_base?lang=uk_UA"><@spring.message "header.switchUk"/></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/user_base?lang=en_US"><@spring.message "header.swithEng"/></a>
         </li>
         <li class="nav-item">
             <@n.logout/>
         </li>
     </@n.navbar>
     <div class="container mt-5">
-
-        <h1><@spring.message "pagename.guest_page"/></h1>
-        <br>
-        <div>
-            <#if errormessage??>
-                <h4>${errormessage}</h4>
-            </#if>
+        <div class="mt-3 mb-3">
+            <h2><@spring.message "pagename.user_page"/></h2>
         </div>
-        <br>
-        <div>
-            <h5><@spring.message "form.find_exhibition"/></h5>
-            <div class="form-group row">
-        <span>
-        <form id="searchByName" method="get" action="filter_ex_by_name" class="form-inline">
-            <label for="searchByName" class="col-sm-2 col-form-label"><@spring.message "form.name"/>:</label>
-            <input type="text" name="filterByName" class="form-control">
-            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-        </form>
-        </span>
-                <span>
-        <form id="searchByTheme" method="get" action="filter_ex_by_theme" class="form-inline">
-            <label for="searchByTheme" class="col-sm-2 col-form-label"><@spring.message "form.theme"/>:</label>
-            <input type="text" name="filterByTheme" class="form-control">
-            <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-        </form>
-        </span>
-            </div>
 
-            <div class="form-group row">
-                <form id="searchByPrice" method="get" action="filter_ex_by_price" class="form-inline">
-                    <div class="col-sm-16">
-                        <label for="searchByPrice"
-                               class="col-sm-2 col-form-label"><@spring.message "form.ticket_price"/>:</label>
-                        <input type="text" name="filterByPriceFrom" class="form-control" required="required">
-                        <input type="text" name="filterByPriceUpTo" class="form-control" required="required">
-                        <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
+        <div class="row">
+            <div class="col">
+                <#if errormessage??>
+                    <h4>${errormessage}</h4>
+                </#if>
+            </div>
+        </div>
+
+        <div class="row mt-3 mb-3">
+            <div class="col">
+                <h5><@spring.message "form.find_exhibition"/></h5>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row mt-3 mb-3">
+                <form class="col" id="searchByName" method="get" action="filter_ex_by_name">
+                    <div class="input-group mb-3">
+                        <input type="text" name="filterByName" class="form-control"
+                               placeholder="<@spring.message "form.name"/>:">
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                        </div>
                     </div>
                 </form>
+
+                <form class="col" id="searchByTheme" method="get" action="filter_ex_by_theme">
+                    <div class="input-group mb-3">
+                        <input type="text" name="filterByTheme" class="form-control"
+                               placeholder="<@spring.message "form.theme"/>:">
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="col" id="searchByStatus" method="get" action="filter_ex_by_status">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><@spring.message "form.status"/>
+                        </span>
+                        </div>
+                        <select class="custom-select" size="1" name="filterByStatus" class="form-control">
+                            <option value="ACTIVE"><@spring.message "value.active"/></option>
+                            <option value="CANCELED"><@spring.message "value.canceled"/></option>
+                            <option value="ENDED"><@spring.message "value.ended"/></option>
+                        </select>
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                        </div>
+                    </div>
+                </form>
+
             </div>
 
-            <div class="form-group row">
-                <form id="searchByDate" method="get" action="filter_ex_by_date" class="form-inline">
-                    <div class="col-sm-16">
-                        <label for="searchByDate" class="col-sm-2 col-form-label"><@spring.message "form.date"/>
-                            :</label>
+            <div class="row mt-3 mb-3">
+
+                <form class="col" id="searchByPrice" method="get" action="filter_ex_by_price">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                   <span class="input-group-text"><@spring.message "form.ticket_price"/>
+                                       :</span>
+                        </div>
+                        <input type="text" name="filterByPriceFrom" class="form-control"
+                               required="required">
+                        <input type="text" name="filterByPriceUpTo" class="form-control"
+                               required="required">
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="col" id="searchByDate" method="get" action="/filter_ex_by_date">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><@spring.message "form.date"/>:</span>
+                        </div>
                         <input type="date" name="filterByDateStart" class="form-control" required="required">
+
                         <input type="date" name="filterByDateEnd" class="form-control" required="required">
-                        <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-outline-secondary"><@spring.message "button.find"/></button>
+                        </div>
                     </div>
                 </form>
+
             </div>
 
-            <div class="form-group row">
-                <form id="searchByStatus" method="get" action="filter_ex_by_status" class="form-inline">
-                    <label for="searchByStatus" class="col-sm-2 col-form-label"><@spring.message "form.status"/>
-                        :</label>
-                    <div class="col-sm-1"></div>
-                    <select size="1" name="filterByStatus" class="form-control">
-                        <option value="ACTIVE"><@spring.message "value.active"/></option>
-                        <option value="CANCELED"><@spring.message "value.canceled"/></option>
-                        <option value="ENDED"><@spring.message "value.ended"/></option>
-                    </select>
-                    <button type="submit" class="btn btn-primary"><@spring.message "button.find"/></button>
-                </form>
+            <div class="row mt-4 mb-4">
+                <div class="col">
+                    <#if searchResult??>
+                        <h4>${searchResult}</h4>
+                    </#if>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <#if searchResult??>
-                <h4>${searchResult}</h4>
-            </#if>
             <#if exhibitions??>
                 <@p.pager url exhibitions />
                 <#list exhibitions.content as exhibition>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th scope="row">${exhibition.id}</th>
-                            <td>
-                                <p>
-                                    <b>${exhibition.exNameEng}</b>
-                                    <b>${exhibition.exNameNative}</b>
-                                </p>
-                                <p>
-                                    <#list exhibition.hallScheduleList as hallSchedule>
-                                        <span><@spring.message "form.hall"/>:&nbsp${hallSchedule.hallName}</span>&nbsp&nbsp&nbsp
-                                        <span><@spring.message "form.start_date"/>: &nbsp${hallSchedule.startDateAsString}</span>&nbsp&nbsp&nbsp
-                                        <span><@spring.message "form.end_date"/>:&nbsp${hallSchedule.endDateAsString}</span>
-                                    </#list>
-                                </p>
-                                <p>
-                                    <@spring.message "form.opening_hours"/>:
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
 
-                                    <span>${exhibition.openTime}</span>
-                                    -
-                                    <span>${exhibition.closeTime}</span>
+                            <h5 class="card-title">
+                                # ${exhibition.id} &nbsp;&nbsp;&nbsp;
+                                <#if .locale == "en_US">
+                                    ${exhibition.exNameEng}&nbsp;&nbsp;&nbsp;
+                                <#else>
+                                    ${exhibition.exNameNative}&nbsp;&nbsp;&nbsp;
+                                </#if>
+                            </h5>
+
+                            <#list exhibition.hallScheduleList as hallSchedule>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <span><@spring.message "form.hall"/>:&nbsp${hallSchedule.hallName}</span>&nbsp&nbsp&nbsp
+                                    <span><@spring.message "form.start_date"/>: &nbsp${hallSchedule.startDateAsString}</span>&nbsp&nbsp&nbsp
+                                    <span><@spring.message "form.end_date"/>:&nbsp${hallSchedule.endDateAsString}</span>
+                                </h6>
+                            </#list>
+
+                            <p class="card-text">
+                                <@spring.message "form.opening_hours"/>:
+                                <span>${exhibition.openTime}</span>
+                                -
+                                <span>${exhibition.closeTime}</span>
+                            </p>
+
+                            <#if .locale == "en_US">
+                                <p class="card-text">
+                                    ${exhibition.descriptionEng}
                                 </p>
-                                <p>
-                                    <span>${exhibition.descriptionEng}</span>
+                                <p class="card-text">
+                                    ${exhibition.themesEng}
                                 </p>
-                                <p>
-                                    <span>${exhibition.descriptionNative}</span>
+                            <#else>
+                                <p class="card-text">
+                                    ${exhibition.descriptionNative}
                                 </p>
-                                <p>
-                                    <span>${exhibition.themesEng}</span>
-                                    <span>${exhibition.themesNative}</span>
+                                <p class="card-text">
+                                    ${exhibition.themesNative}
                                 </p>
-                                <p>
-                                    <@spring.message "form.ticket_price"/>:
-                                    <span>${exhibition.ticketPrice}</span>
-                                </p>
-                                <form action="buy_ticket" method="post" class="form-inline">
-                                    <select size="1" name="ticketQuantity" id="ticketQuantity" class="form-control">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                    <input type="hidden" name="exhibitionId" value="${exhibition.id}"/>
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                                    <button type="submit"
-                                            class="btn btn-primary"><@spring.message "button.buy_ticket"/></button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </#if>
+
+                            <p class="card-text">
+                                <@spring.message "form.ticket_price"/>:
+                                <span>${exhibition.ticketPrice}</span>
+                            </p>
+                            <form action="buy_ticket" method="post" class="form-inline">
+                                <select size="1" name="ticketQuantity" id="ticketQuantity" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <input type="hidden" name="exhibitionId" value="${exhibition.id}"/>
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit"
+                                        class="btn btn-outline-secondary"><@spring.message "button.buy_ticket"/></button>
+                            </form>
+                        </div>
+                    </div>
                 </#list>
                 <@p.pager url exhibitions />
             <#else>
             </#if>
 
+
             <#if halls_with_exhibitions??>
                 <#list halls_with_exhibitions as hall_with_exhibition>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th scope="row">${hall_with_exhibition.exhibition.getId()}</th>
-                            <td>
-                                <p>
-                                    <b>${hall_with_exhibition.exhibition.getExNameEng()}</b>
-                                    <b>${hall_with_exhibition.exhibition.getExNameNative()}</b>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                # ${hall_with_exhibition.exhibition.getId()}
+                                <#if .locale == "en_US">
+                                    ${hall_with_exhibition.exhibition.getExNameEng()}
+                                <#else>
+                                    ${hall_with_exhibition.exhibition.getExNameNative()}
+                                </#if>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <span><@spring.message "form.hall"/>:&nbsp${hall_with_exhibition.hallName}</span>&nbsp&nbsp&nbsp
+                                <span><@spring.message "form.start_date"/>: &nbsp${hall_with_exhibition.startDateAsString}</span>&nbsp&nbsp&nbsp
+                                <span><@spring.message "form.end_date"/>:&nbsp${hall_with_exhibition.endDateAsString}</span>
+                            </h6>
+                            <p class="card-text">
+                                <@spring.message "form.opening_hours"/>:
+                                <span>${hall_with_exhibition.exhibition.getOpenTime()}</span>
+                                -
+                                <span>${hall_with_exhibition.exhibition.getCloseTime()}</span>
+                            </p>
+
+                            <#if .locale == "en_US">
+                                <p class="card-text">
+                                    ${hall_with_exhibition.exhibition.getDescriptionEng()}
                                 </p>
-                                <p>
-                                    <span><@spring.message "form.hall"/>:&nbsp${hall_with_exhibition.hallName}</span>&nbsp&nbsp&nbsp
-                                    <span><@spring.message "form.start_date"/>: &nbsp${hall_with_exhibition.startDateAsString}</span>&nbsp&nbsp&nbsp
-                                    <span><@spring.message "form.end_date"/>:&nbsp${hall_with_exhibition.endDateAsString}</span>
+                                <p class="card-text">
+                                    ${hall_with_exhibition.exhibition.getThemesEng()}
                                 </p>
-                                <p>
-                                    <@spring.message "form.opening_hours"/>:
-                                    <span>${hall_with_exhibition.exhibition.getOpenTime()}</span>
-                                    -
-                                    <span>${hall_with_exhibition.exhibition.getCloseTime()}</span>
+                            <#else>
+                                <p class="card-text">
+                                    ${hall_with_exhibition.exhibition.getDescriptionNative()}
                                 </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getDescriptionEng()}</span>
+                                <p class="card-text">
+                                    ${hall_with_exhibition.exhibition.getThemesNative()}
                                 </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getDescriptionNative()}</span>
-                                </p>
-                                <p>
-                                    <span>${hall_with_exhibition.exhibition.getThemesEng()}</span>
-                                    <span>${hall_with_exhibition.exhibition.getThemesNative()}</span>
-                                </p>
-                                <p>
-                                    <@spring.message "form.ticket_price"/>:
-                                    <span>${hall_with_exhibition.exhibition.getTicketPrice()}</span>
-                                </p>
-                                <form action="buy_ticket" method="post" class="form-inline">
-                                    <select size="1" name="ticketQuantity" id="ticketQuantity" class="form-control">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                    <input type="hidden" name="exhibitionId"
-                                           value="${hall_with_exhibition.exhibition.id}"/>
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                                    <button type="submit"
-                                            class="btn btn-primary"><@spring.message "button.buy_ticket"/></button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </#if>
+                            <p class="card-text">
+                                <@spring.message "form.ticket_price"/>:
+                                <span>${hall_with_exhibition.exhibition.getTicketPrice()}</span>
+                            </p>
+                            <form action="buy_ticket" method="post" class="form-inline">
+                                <select size="1" name="ticketQuantity" id="ticketQuantity" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <input type="hidden" name="exhibitionId"
+                                       value="${hall_with_exhibition.exhibition.id}"/>
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit"
+                                        class="btn btn-outline-secondary"><@spring.message "button.buy_ticket"/></button>
+                            </form>
+                        </div>
+                    </div>
                 </#list>
             <#else>
             </#if>
         </div>
-        <br>
-        <br>
-        <div>
-            <h5><@spring.message "form.find_tickets"/></h5>
-            <div class="form-group row">
-                <form id="searchMyTickets" method="get" action="find_my_tickets">
-                    <button type="submit" class="btn btn-primary"><@spring.message "button.show_my_tickets"/></button>
-                </form>
+
+        <div class="row">
+            <div class="col">
+                <h5><@spring.message "form.find_tickets"/></h5>
             </div>
-            <#if search_ticket_message??>
-                <h4>${search_ticket_message}</h4>
-            </#if>
+        </div>
+
+        <div class="container">
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <form id="searchMyTickets" method="get" action="find_my_tickets">
+                        <button type="submit"
+                                class="btn btn-outline-secondary"><@spring.message "button.show_my_tickets"/></button>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="row mt-3 mb-3">
+                <#if search_ticket_message??>
+                    <h4>${search_ticket_message}</h4>
+                </#if>
+            </div>
 
             <#if ticketList??>
                 <#list ticketList as ticket>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th scope="row">${ticket.id}</th>
-                            <td>
-                                <p>
-                                    <b>
-                                        ${ticket.exhibition.exNameEng}
-                                        ${ticket.exhibition.exNameNative}
-                                    </b>
-                                </p>
-                                <p>
-                                    <@spring.message "form.opening_hours"/>:&nbsp
-                                    ${ticket.exhibition.openTime}&nbsp-&nbsp
-                                    ${ticket.exhibition.closeTime}
-                                </p>
-                                <p>
-                                    <#if ticket.exhibition.hallScheduleList??>
-                                        <#list ticket.exhibition.hallScheduleList as hall>
-                                            <@spring.message "form.hall"/>:&nbsp${hall.hallName}
-                                            <@spring.message "form.start_date"/>:&nbsp${hall.startDateAsString}&nbsp&nbsp&nbsp
-                                            <@spring.message "form.end_date"/>:&nbsp${hall.endDateAsString}
-                                        </#list>
-                                    </#if>
-                                </p>
-                                <p>
-                                    ${ticket.customer.email}
-                                </p>
-                                <p>
-                                    <@spring.message "form.quantity"/>:&nbsp${ticket.quantity}
-                                </p>
-                                <p>
-                                    <@spring.message "form.ticket_status"/>:&nbsp${ticket.ticketStatus}
-                                </p>
-                            </td>
-                            <br>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <@spring.message "form.ticket_id"/> &nbsp; ${ticket.id}
+                                <#if .locale == "en_US">
+                                    ${ticket.exhibition.exNameEng}&nbsp;
+                                <#else>
+                                    ${ticket.exhibition.exNameNative}
+                                </#if>
+                            </h5>
+
+
+                            <p class="card-text">
+                                <@spring.message "form.opening_hours"/>:&nbsp
+                                ${ticket.exhibition.openTime}&nbsp-&nbsp
+                                ${ticket.exhibition.closeTime}
+                            </p>
+
+                            <#if ticket.exhibition.hallScheduleList??>
+                                <#list ticket.exhibition.hallScheduleList as hall>
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                        <@spring.message "form.hall"/>:&nbsp${hall.hallName}
+                                        <@spring.message "form.start_date"/>:&nbsp${hall.startDateAsString}
+                                        &nbsp&nbsp&nbsp
+                                        <@spring.message "form.end_date"/>:&nbsp${hall.endDateAsString}
+                                    </h6>
+                                </#list>
+                            </#if>
+
+                            <p class="card-text">
+                                ${ticket.customer.email}
+                            </p>
+                            <p class="card-text">
+                                <@spring.message "form.quantity"/>:&nbsp${ticket.quantity}
+                            </p>
+                            <p class="card-text">
+                                <@spring.message "form.ticket_status"/>:&nbsp${ticket.ticketStatus}
+                            </p>
+                        </div>
+                    </div>
                 </#list>
             </#if>
+
         </div>
     </div>
 </@c.page>

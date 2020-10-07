@@ -57,7 +57,7 @@
             </div>
             <input type="hidden" name="lang" value="${springMacroRequestContext.locale}"/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-primary"><@spring.message "button.register"/></button>
+            <button type="submit" class="btn btn-outline-secondary"><@spring.message "button.register"/></button>
         </form>
     </div>
 </@c.page>

@@ -2,8 +2,6 @@ package org.example.exhibitionsapp.repository;
 
 import org.example.exhibitionsapp.entity.HallName;
 import org.example.exhibitionsapp.entity.HallSchedule;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Calendar;

@@ -2,12 +2,11 @@ package org.example.exhibitionsapp.controller;
 
 import org.example.exhibitionsapp.entity.Role;
 import org.example.exhibitionsapp.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Locale;
 
@@ -37,6 +36,7 @@ public class PagesController {
 
     private String redirectToBaseIfAutorizedElseDirectTo(String direction) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Locale locale = LocaleContextHolder.getLocale();
         if (principal == null) {
             return direction;
         }
@@ -45,9 +45,9 @@ public class PagesController {
             if (user.getRoles().contains(Role.ADMIN)) {
 
 
-                return "admin_base";
+                return "redirect:admin_base?lang="+locale;
             }
-            return "user_base";
+            return "redirect:user_base?lang="+locale;
         } catch (ClassCastException ex) {
             return direction;
         }

@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring>
 <#macro navbar>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/main?lang=${springMacroRequestContext.locale}">ExhibitionsApp</a>
@@ -19,6 +20,6 @@
 <#macro logout>
         <form action="/logout" method="post">
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-primary" ><@spring.message "button.logout"/></button>
+            <button type="submit" class="btn btn-outline-secondary" ><@spring.message "button.logout"/></button>
         </form>
 </#macro>
